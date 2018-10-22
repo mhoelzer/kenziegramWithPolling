@@ -1,0 +1,19 @@
+doctype
+html
+  head
+    link(rel="stylesheet" href="style.css")
+    title Kenziegram
+  body
+    div#greeting
+      h1#welcome Welcome to Kenziegram!
+      form(method="post" enctype="multipart/form-data" action="/uploads")
+        div#buttonContainer
+          label(for="file") Upload a New Photo:
+          input#file(type="file" name="myFile")
+        div#buttonContainer
+          button(type="submit") Upload the file
+    br
+    div#container
+      div#photos
+        each imgName in imgNames
+          img(src=`/uploads/${imgName}`)
