@@ -44,7 +44,7 @@ app.post("/latest", (request, response) => {
         for (let i = 0; i < imgNames.length; i++) {
             let modified = fs.statSync(`./public/uploads/${imgNames[i]}`).mtimeMs;
             if (modified > clientTimeStamp) {
-                imagesArray.push(imgNames[i])
+                imagesArray.push(`uploads/${imgNames[i]}`)
             }
             // separate ifs b/c always want to send a timestamp 
             if (modified > highestTimeStamp) {
