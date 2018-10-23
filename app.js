@@ -16,7 +16,7 @@ const upload = multer({ dest: uploadPath });
 const uploadedFiles = [];
 
 app.get("/", (request, response) => {
-    // returns array with dir contents ; has all of file names ina  particular directory; we need this to add an image tag for eeach folder
+    // returns array with dir contents ; has all of file names ina  particular directory; we need this to add an image tag for each folder
     fs.readdir(uploadPath, function (err, imgNames) {
         imgNames.splice(imgNames.findIndex(imgName => imgName === ".DS_Store"), 1);
         console.log(imgNames);
@@ -42,11 +42,11 @@ app.post("/latest", (request, response) => {
         let imagesArray = [];
         let highestTimeStamp = 0;
         for (let i = 0; i < imgNames.length; i++) {
-            let modified = fs.statSync(imgNames[i]).mtimeMs;
+            let modified = fs.statSync(`./public/uploads/${imgNames[i]}`).mtimeMs;
             if (modified > clientTimeStamp) {
-                //add to array to send to client
                 imagesArray.push(imgNames[i])
             }
+            // separate ifs b/c always want to send a timestamp 
             if (modified > highestTimeStamp) {
                 highestTimeStamp = modified
             }
