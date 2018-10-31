@@ -4,12 +4,6 @@ let failures = 0;
 let interval = 5000;
 
 function fetchUploadsAndTimestamps(timestamp) {
-    failures++;
-    if(failures > 2) {
-        clearTimeout(setTimeout());
-        alert("ERROR ERROR YOU'RE A FAILURE");
-        return;
-    }
     fetch("/latest", {
         method: "POST",
         body: JSON.stringify({ "after": mostRecentTimestamp }),
@@ -32,6 +26,20 @@ function fetchUploadsAndTimestamps(timestamp) {
                 document.getElementById("photos").insertBefore(imageHere, document.getElementById("photos").firstChild)
             }
             setTimeout(fetchUploadsAndTimestamps, interval) // this goes inside so it gets done in the right order with the rest of the .then info here 
+        })
+        .catch(fails => {
+            failures++;
+            if(failures === 1) {
+                console.log(`failure #${failures}`);
+                alert("1 error so far");
+                setTimeout(fetchUploadsAndTimestamps, interval);
+                // return
+            } else if(failures === 2) {
+                console.log(`failure #${failures}`);
+                alert(`You know what they say: fool me once, strike one... but fool me twice... strike three" ~Michael Scott`);
+                document.body.textContent = "ERROR ERROR YOU'RE A FAILURE";
+                // return;
+            }
         })
 };
 
